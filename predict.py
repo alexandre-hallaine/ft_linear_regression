@@ -1,29 +1,24 @@
-import os.path
+import csv
+import estimate
 
-def predict(mileage):
-	a, b = 0, 0
-	if os.path.isfile("result"):
-		with open("result", "r") as f:
-			lines = f.readlines()
-			f.close()
-			try:
-				if (len(lines) != 2):
-					raise ValueError
-				a, b = [int(x) for x in lines]
-			except ValueError:
-				print("The result file is corrupted.")
-				print("Please try again.")
-				exit(1)
-	return a * mileage + b
-
-def request():
+def request_data():
 	try:
-		mileage = int(input("Enter the mileage of the car: "))
+		mileage = int(input('Enter mileage: '))
 		if mileage < 0:
 			raise ValueError
-		print("The  price of the car is", predict(mileage) / 100, "dollars")
+		return mileage
 	except ValueError:
-		print("The mileage must be a positive integer.")
-		print("Please try again.")
-		request()
-request()
+		print('Invalid input!')
+		return request_data()
+
+print('Loading data...')
+
+with open('result.csv', 'r') as file:
+	reader = csv.reader(file)
+	header = next(reader)
+	theta = [float(x) for x in next(reader)]
+	file.close()
+
+mileage = request_data()
+price = estimate.price(mileage, theta)
+print('Price:', price)
