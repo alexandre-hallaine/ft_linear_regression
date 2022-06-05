@@ -1,6 +1,8 @@
 import csv
 import estimate
 
+import plotly.graph_objects as go
+
 
 def normalisation(data):
     return [(row - min(data)) / (max(data) - min(data)) for row in data]
@@ -28,11 +30,10 @@ with open('data.csv', 'r') as file:
         prices.append(int(row[1]))
     file.close()
 
-
 print('Training...')
 
 theta = [1, 1]
-learning_rate = 0.1
+learning_rate = 1
 print('Learning rate:', learning_rate)
 
 while True:
@@ -60,3 +61,13 @@ with open('result.csv', 'w') as file:
     file.close()
 
 print('Done!')
+
+x = [min(mileages), max(mileages)]
+y = [estimate.price(x, theta) for x in x]
+
+fig = go.Figure()
+fig.update_layout(xaxis_title='Mileage', yaxis_title='Price')
+fig.add_trace(go.Scatter(x=mileages,
+              y=prices, mode='markers', name='Data'))
+fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Estimate'))
+fig.show()
