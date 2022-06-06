@@ -1,4 +1,5 @@
 import csv
+import os
 import estimate
 
 import plotly.graph_objects as go
@@ -25,8 +26,11 @@ def train(data, theta, learning_rate):
     return [theta[i] - learning_rate * sum[i] / len(data[i]) for i in range(len(theta))]
 
 
-print('Loading data...')
+if os.path.isfile('data.csv') == False:
+    print('Data file not found!')
+    exit()
 
+print('Loading data...')
 mileages = []
 prices = []
 with open('data.csv', 'r') as file:
