@@ -72,6 +72,12 @@ for i in infinity():
                              name='Estimate {}'.format(i)))
 print()
 
+sum = 0
+for i in range(len(normalised_mileages)):
+	sum += (estimate.price(normalised_mileages[i], theta) - normalised_prices[i]) ** 2
+MSE = sum / len(normalised_mileages)
+RMSE = MSE ** 0.5
+
 delta = [max(x) - min(x) for x in [mileages, prices]]
 theta[1] = theta[1] * delta[1] / delta[0]
 theta[0] = theta[0] * delta[1] + min(prices) - theta[1] * min(mileages)
@@ -95,7 +101,7 @@ with open('result.csv', 'w') as file:
     writer.writerow(theta)
     file.close()
 
-print('Done!')
+print('Done! RMSE:', RMSE * 100, '%')
 
 trained_figure.show()
 denormalised_figure.show()
