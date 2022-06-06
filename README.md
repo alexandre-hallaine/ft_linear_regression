@@ -24,3 +24,13 @@ Enter mileage: <number>
 ```bash
 Price: 8000
 ```
+
+# Explanation
+- The values are first normalized (scaled between 0 and 1) to be easier to process.
+- Normalized thetas are then calculated via gradient descent
+![Training](/images/training.png)
+
+- A denormalized version of thetas is calculated so that it can be used with normal values.
+![Data](/images/data.png)
+
+- We can now predict the price of a car with an affine function (with thetas), and voila
