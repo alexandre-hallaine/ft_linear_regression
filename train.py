@@ -45,11 +45,9 @@ while True:
     print('Theta Normalised:', theta, end='\r')
 print()
 
-deltaX = max(mileages) - min(mileages)
-deltaY = max(prices) - min(prices)
-theta[1] = deltaY * theta[1] / deltaX
-theta[0] = ((deltaY * theta[0]) + min(prices) - theta[1]
-            * (deltaY / deltaX) * min(mileages))
+delta = [max(x) - min(x) for x in [mileages, prices]]
+theta[1] = theta[1] * delta[1] / delta[0]
+theta[0] = theta[0] * delta[1] + min(prices) - theta[1] * min(mileages)
 print('Theta Denormalised:', theta)
 
 print('Writing result...')
