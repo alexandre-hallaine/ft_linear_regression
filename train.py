@@ -26,7 +26,7 @@ def train(data, theta, learning_rate):
     return [theta[i] - learning_rate * sum[i] / len(data[i]) for i in range(len(theta))]
 
 
-if os.path.isfile('data.csv') == False:
+if not os.path.isfile('data.csv'):
     print('Data file not found!')
     exit()
 
@@ -69,12 +69,12 @@ for i in infinity():
     x = [min(normalised_mileages), max(normalised_mileages)]
     y = [estimate.price(x, theta) for x in x]
     trained_figure.add_trace(go.Scatter(x=x, y=y, mode='lines',
-                             name='Estimate {}'.format(i)))
+                                        name='Estimate {}'.format(i)))
 print()
 
 sum = 0
 for i in range(len(normalised_mileages)):
-	sum += (estimate.price(normalised_mileages[i], theta) - normalised_prices[i]) ** 2
+    sum += (estimate.price(normalised_mileages[i], theta) - normalised_prices[i]) ** 2
 MSE = sum / len(normalised_mileages)
 RMSE = MSE ** 0.5
 
@@ -105,3 +105,5 @@ print('Done! RMSE:', RMSE * 100, '%')
 
 trained_figure.show()
 denormalised_figure.show()
+
+# %%
